@@ -21,7 +21,8 @@ app.use('/auth',auth);
 //db 
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser : true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    dbName:'t-shirt'
 }).then(() => {
     console.log("DB CONNECTED");
 }).catch(err => {
