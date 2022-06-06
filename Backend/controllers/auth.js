@@ -42,7 +42,7 @@ const signIn = (req,res) => {
             })
         }
 
-        if(!user.authenticate(password)){
+        if(!user.autheticate(password)){
             return res.status(401).json({
                 error:"Email and Password do not match"
             })
@@ -76,7 +76,7 @@ const isSignedIn = expressJwt({
 
 //custom middlewares
 const isAuthenticated = (req,res,next) => {
-    let checker = req.profile && req.auth && req.profile._id === req.auth._id;
+    let checker = req.profile && req.auth && req.profile._id == req.auth._id;
     if(!checker){
         return res.status(403).json({
             error :"Access denide"
