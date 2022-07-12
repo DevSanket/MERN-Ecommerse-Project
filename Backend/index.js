@@ -5,11 +5,13 @@ require('dotenv/config');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+
+//Routes
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const categoryRouter = require('./routes/category');
 const productRoutes = require('./routes/product');
-
+const orderRoutes = require('./routes/order');
 
 
 //middlewares
@@ -21,7 +23,7 @@ app.use(cors());
 app.use('/api',authRouter);
 app.use('/api',userRouter);
 app.use('/api',categoryRouter);
-app.use('/api',productRoutes);
+app.use('/api',orderRoutes);
 
 
 
