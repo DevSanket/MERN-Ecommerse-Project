@@ -40,7 +40,7 @@ mongoose.connect(process.env.DATABASE,{
 
 const port = process.env.PORT || 3000;
 
-app.listen(3000,() => {
+app.listen(4000,() => {
     console.log("Server running on Port 3000");
 });
 
