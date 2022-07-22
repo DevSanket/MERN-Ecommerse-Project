@@ -25,16 +25,24 @@ const Menu = () => {
                 className='nav-link' to="/user/dashboard">Dashboard</Link>
             </li>
             <li className="nav-item">
-                <Link className='nav-link' to="/">A. Dashbord</Link>
+                <Link className='nav-link'
+                style={currentTab("/admin/dashboard")}
+                to="/admin/dashboard">A. Dashbord</Link>
             </li>
             <li className="nav-item">
-                <Link className='nav-link' to="/">Sign up</Link>
+                <Link 
+                 style={currentTab("/signup")}
+                className='nav-link' to="/signup">Sign up</Link>
             </li>
             <li className="nav-item">
-                <Link className='nav-link' to="/">Sign In</Link>
+                <Link 
+                 style={currentTab("/signin")}
+                 className='nav-link' to="/signin">Sign In</Link>
             </li>
             <li className="nav-item">
-                <Link className='nav-link' to="/">Sign out</Link>
+                <Link
+                style={currentTab("/signout")}
+                className='nav-link' to="/signout">Sign out</Link>
             </li>
         </ul>
     </div>
