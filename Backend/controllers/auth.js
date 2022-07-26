@@ -15,7 +15,7 @@ const signUp = (req,res) => {
     user.save((err,user) => { 
         if(err){
             return res.status(400).json({
-                err:"Not Able to save User in DB"
+                error:"Invalid data Please fill Again"
             });
         }
         res.json({
