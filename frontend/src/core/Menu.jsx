@@ -1,5 +1,6 @@
-import React from 'react'
+import React,{Fragment} from 'react'
 import {Link} from "react-router-dom";
+import { isAuthenticated, signout } from '../auth/helper';
 
 const currentTab = (path) => {
     if(window.location.pathname ===  path){
@@ -22,28 +23,45 @@ const Menu = () => {
             <li className="nav-item">
                 <Link
                 style={currentTab("/user/dashboard")}
-                className='nav-link' to="/user/dashboard">Dashboard</Link>
+                className='nav-link' to="/user/dashboard">U.Dashboard</Link>
             </li>
             <li className="nav-item">
                 <Link className='nav-link'
                 style={currentTab("/admin/dashboard")}
                 to="/admin/dashboard">A. Dashbord</Link>
             </li>
-            <li className="nav-item">
-                <Link 
-                 style={currentTab("/signup")}
-                className='nav-link' to="/signup">Sign up</Link>
-            </li>
-            <li className="nav-item">
-                <Link 
-                 style={currentTab("/signin")}
-                 className='nav-link' to="/signin">Sign In</Link>
-            </li>
-            <li className="nav-item">
-                <Link
-                style={currentTab("/signout")}
-                className='nav-link' to="/signout">Sign out</Link>
-            </li>
+           {
+            !isAuthenticated() && (
+                <Fragment>
+                <li className="nav-item">
+                    <Link 
+                     style={currentTab("/signup")}
+                    className='nav-link' to="/signup">Sign up</Link>
+                </li>
+                <li className="nav-item">
+                    <Link 
+                     style={currentTab("/signin")}
+                     className='nav-link' to="/signin">Sign In</Link>
+                </li>
+                </Fragment>
+            )
+                       
+            }
+           {
+                isAuthenticated() && ( <li className="nav-item">
+                <span 
+                onClick={() => {
+                    signout( () => {
+                        window.history.pushState({}, undefined, "/");
+                        window.location.reload();
+                    })
+                
+                }}
+                className="nav-link text-warning">
+                    Signout
+                </span>
+            </li>) 
+           }
         </ul>
     </div>
 }

@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Link} from 'react-router-dom';
+import { Navigate} from 'react-router-dom';
 import Base from '../core/Base';
 import { signin,authenticate,isAuthenticated } from '../auth/helper';
 
@@ -31,24 +31,45 @@ const Signin = () => {
         signin({email,password})
         .then(data => {
             if(data.error){
-                
+                setValues({...values,error:data.error,loading:false});
+            }else{
+              authenticate(data,() => {
+                setValues({
+                  ...values,
+                  loading:false,
+                  didRedirect:true
+                })
+              })
             }
+            window.location.reload();
+        })
+        .catch(err => {
+          console.log("signin request failed");
         })
     }
 
-      const successMessage = () => {
+
+    const performRedirect = () => {
+      if(didRedirect){
+        if(user &&  user.role === 1){
+            return <Navigate to="/admin/dashboard" />
+        }else{
+          return <Navigate to="/user/dashboard" />
+        }
+      }
+
+      if(isAuthenticated()){
+        return <Navigate to="/" />;
+      }
+    }
+
+      const loadingMessage = () => {
         return (
-          <div className="row">
-            <div className="col-md-6 offset-sm-3 text-left">
-              <div
-                className="alert alert-success"
-                // style={{ display: success ? "" : "none" }}
-              >
-                New Account was Created Successfully. Please{" "}
-                <Link to="/signin"> Login Here </Link>
-              </div>
-            </div>
-          </div>
+         loading && (
+          <div className="alert alert-info">
+            <h2>Loading...</h2>
+         </div>
+         )
         );
       };
     
@@ -66,6 +87,7 @@ const Signin = () => {
           </div>
         );
       };
+
     const signInForm = () => {
         return (
             <div className="row">
@@ -89,7 +111,7 @@ const Signin = () => {
                             value={password}
                             className='form-control' type="password" />
                         </div>
-                        <button className="btn btn-success btn-block mt-2">Submit</button>
+                        <button onClick={onSubmit}  className="btn btn-success btn-block mt-2">Submit</button>
                     </form>
                 </div>
             </div>
@@ -98,8 +120,11 @@ const Signin = () => {
 
     return (
         <Base title="sign in page" description="A page for user to sign in!">
-            {signInForm()}
-
+          {loadingMessage()}
+          {errorMessage()}
+          {signInForm()}
+          {performRedirect()}
+          {/* <p>{JSON.stringify(values)}</p> */}
         </Base>
     )
 }
